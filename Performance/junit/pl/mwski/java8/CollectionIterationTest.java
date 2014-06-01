@@ -19,7 +19,7 @@ import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 import com.carrotsearch.junitbenchmarks.h2.H2Consumer;
 
 @AxisRange(min = 0, max = 2)
-@BenchmarkMethodChart(filePrefix = "benchmarkCLASSNAME")
+@BenchmarkMethodChart(filePrefix = "benchmark.CLASSNAME")
 @BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 5)
 public class CollectionIterationTest {
 	public static int NO_OF_ITEMS = 250000;
@@ -105,8 +105,8 @@ public class CollectionIterationTest {
 	private final List<Object[]> tabObjList = new ArrayList<>(NO_OF_ITEMS); 
 
 	private static final H2Consumer consumer = new H2Consumer(
-			new File("junit/testResult/db"),
-			new File("junit/testResult/charts"),
+			new File("testResult/db"),
+			new File("testResult/charts"),
 			"custom-build-key");
 
 	@Rule
@@ -173,15 +173,23 @@ public class CollectionIterationTest {
 	private static void fillDataBeans() {
 		for (int i = 0; i < NO_OF_ITEMS; i++) {
 			DataBean e = new DataBean(i, 
-					(float)Math.PI * i, 
-					String.valueOf(i), 
-					i, 
-					Float.valueOf((float) Math.PI * i), 
-					i % 2 > 0, 
-					i % 2 < 0, 
-					BigDecimal.valueOf(i));
+					(float)(Math.PI * i * Math.random()), 
+					randomLetters(), 
+					(int)(i * Math.random()), 
+					Float.valueOf((float) (Math.PI * i* Math.random())), 
+					(i * Math.random()) % 2 > 0, 
+					(i * Math.random()) % 2 < 0, 
+					BigDecimal.valueOf((int)(i * Math.random())));
 			dataBeanList.add(e);
 		}
+	}
+
+	private static String randomLetters() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 25; i++) {
+			sb.append((char)(65 + Math.round((35 * Math.random()))));
+		}
+		return sb.toString();
 	}
 
 }
