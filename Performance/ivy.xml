@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info
+        organisation="MaWe"
+        module="performance"
+        status="integration">
+	</info>
+	<configurations>
+		<conf name="jUnit" visibility="public"/>
+	</configurations>
+    <dependencies>
+		<dependency org="junit" name="junit" rev="4.11" />
+		<dependency org="com.carrotsearch" name="junit-benchmarks" rev="0.7.2" />
+    </dependencies>
+</ivy-module>
+
