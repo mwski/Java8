@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project name="PerformanceTest" basedir="." default="clean-build-test-all"
+    xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="dir.build" value="build"/>
+	<property name="dir.classes.tests" value="build/tests/classes"/>
+	
+	<ivy:cachepath pathid="ivy.classpath" />
+	
+	<path id="classpath">
+		<pathelement location="${dir.classes}" />
+	</path>
+	
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+	<target name="clean">
+        <delete dir="${dir.classes}"/>
+        <delete dir="${dir.classes.tests}"/>
+    </target>
+	
+	<!-- ================================= 
+          target: resolve              
+         ================================= -->
+    <target name="resolve">
+    	<ivy:settings file="${user.home}/apache-ivy/ivysettings.xml"/>
+        <ivy:cleancache/>
+        <ivy:resolve/>
+    	<ivy:cachepath pathid="ivy.classpath" />
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: build-tests                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="build-tests">
+    	<mkdir dir="${dir.classes.tests}"/>
+    	<javac srcdir="junit" destdir="${dir.classes.tests}" 
+    		includeantruntime="false">
+    		<classpath refid="ivy.classpath"/>
+    		<classpath refid="classpath"/>
+    	</javac>
+    </target>
+	
+	<!-- ================================= 
+          target: build-all              
+         ================================= -->
+    <target name="build-all" depends="clean, build-tests" description="Builds all" />
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: test-all                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-all">
+        <junit printsummary="yes" haltonfailure="yes" fork="true" >
+            <classpath>
+              <path refid="ivy.classpath"/>
+              <pathelement location="${dir.classes}"/>
+              <pathelement location="${dir.classes.tests}"/>
+            </classpath>
+        	
+			<formatter type="xml"/>
+        	
+            <batchtest fork="yes">
+              <fileset dir="junit">
+                <include name="**/*Test.java"/>
+              </fileset>
+            </batchtest>
+        	
+        </junit>    
+	</target>
+	
+   <!-- ================================= 
+          target: clean-build-test-all              
+         ================================= -->
+    <target name="clean-build-test-all" depends="clean, build-all, test-all" description="Cleans, builds and runs all JUnit tests" />
+
+	<!-- ================================= 
+          target: noclean-test-all              
+         ================================= -->
+    <target name="noclean-test-all" depends="test-all" description="Run all JUnit tests" />
+
+	
+</project>
