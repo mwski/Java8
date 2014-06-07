@@ -22,7 +22,7 @@ import com.carrotsearch.junitbenchmarks.h2.H2Consumer;
 @BenchmarkMethodChart(filePrefix = "benchmark.CLASSNAME")
 @BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 5)
 public class CollectionIterationTest {
-	public static int NO_OF_ITEMS = 250000;
+	public static int NO_OF_ITEMS = 500000;
 
 	static class DataBean {
 

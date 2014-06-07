@@ -2,6 +2,7 @@
 <project name="PerformanceTest" basedir="." default="clean-build-test-all"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<property environment="env"/>
 	<property name="dir.build" value="build"/>
 	<property name="dir.classes.tests" value="build/tests/classes"/>
 	
@@ -23,7 +24,7 @@
           target: resolve              
          ================================= -->
     <target name="resolve">
-    	<ivy:settings file="${user.home}/apache-ivy/ivysettings.xml"/>
+    	<ivy:settings file="${env.ANT_HOME}/ivysettings.xml"/>
         <ivy:cleancache/>
         <ivy:resolve/>
     	<ivy:cachepath pathid="ivy.classpath" />
@@ -50,7 +51,7 @@
           target: test-all                      
          - - - - - - - - - - - - - - - - - -->
     <target name="test-all">
-        <junit printsummary="yes" haltonfailure="yes" fork="true" >
+        <junit printsummary="yes" haltonfailure="yes" fork="true" maxmemory="2048m" >
             <classpath>
               <path refid="ivy.classpath"/>
               <pathelement location="${dir.classes}"/>
